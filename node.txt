@@ -1,0 +1,113 @@
+// ket noi database derby:
+Cai dat moi truong
+
+---------------Setup enviroment to run Derby---
+# Java Tomcat
+export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+export JRE_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+#Derby database
+export PATH="$HOME/.local/bin:$PATH:$JAVA_HOME/bin:/opt/db-derby-10.14.2.0-bin/bin"
+
+------------Configation Derby database---------------
+//Ket noi:
+$ startNetworkServer
+//Dong ket noi:
+$ stopNetworkServer
+//Thao tac:
+
+$ ij
+ij version 10.14
+//Ket noi co so du lieu
+ij> connect 'jdbc:derby://localhost:1527//home/cmd/myProject/hibernate/education;create=true';
+
+ij> connect 'jdbc:derby://localhost:1527//home/cmd/myProject/hibernate/education';
+
+
+show tables;
+
+Dialect la gi?
+Dialect la bien the cua mot ngon ngu nao do, o day la ngon ngu SQL
+
+De luu data tu controller vao trong database ta can 1 session
+--> de tao transaction, ta can session factory
+
+hibernate mapping to create schema DDL: hbm2ddl
+co cac property: 
+none, validate, create, create-drop, update
+
+-------------Status of Object-------------------
+
+//Trong Hibernate co 3 trang thai cua 1 object
+TRANSIENT:
+Chưa hề tồn tại một mapping nào tới hibẻnate 
+Chỉ tồn tại trong database
+
+PERSISTENT:
+Đã kết nối tới database rồi, 
+Đã tồn tại trong một biến trong code java rồi 
+
+DETEACHED:
+Đó là khi nó đang ở trạng thái Persistent mà chúng ta đóng close() sesion đó lại.
+Nó sẽ trở về trạng thái Detached 
+
+
+-----------Proxy Object------------------
+La object temp khi hibernate lay du lieu tu database
+Lazy va Eager
+Lazy: tuc la neu object = get(name);
+thi no vao database chi lay thuoc tinh name ra thoi.
+Khi sessionc.close() neu co gan truy cap vao collection attribute thi se gay ra loi
+
+Eager: get(name) nhung no lay toan bo thuoc tinh collection ra luon.
+Y nghia:
+Lazy: cho phep tang memmory, perfomance
+Khi ko can su dung collection thi chi can su dung lazy
+
+-----------------OneToMany---------
+OneToOne: de @OneToOne ben class java nao cung dc 
+OneToMany: cai nao quan trong thi de ben class java do
+
+
+-------HQL--------------
+HQL: la viet tat cua hibernate query language
+SQL: lam viec tren database
+HQL: lam viec tren persistent object ma ta da doc tu database ra 
+Thuc te: HQL duoc dich ra SQL thuan tuy boi hibernate
+De tang preformance cho cau HQL:
+From name_table Where ...: tu dong chon all column
+Select name_col From.....: chon column theo y muon
+
+-------Criteria----------------
+Trong hibernate ben canh su dung HQL, con co the su dung Criteria de query database
+Criteria duoc su dung chu yeu cho Reading database
+Uu diem cua Criteria la de dang thay doi va mo rong
+Criteria chu yeu su dung: Filtering and Logical Conditions
+Restrictions:
+
+
+------------Named Query-----------
+Viet mot lan cau query va dung duoc nhieu lan
+Toi uu hoa code
+
+
+----------First Level cache-------
+La default level trong hibernate
+Khi session.close() thi cache tu dong mat di
+First lever cache: tuc la khi nao chua close session thi object chi duoc khoi tao mot lan khi goi tu database
+First level cache: se su dung cau query goi vao database voi moi lan ta dong session
+
+
+---------Second level cache-----------
+default thi disable trong hibernate
+Mac dau ta dong close session nhung voi cung mot cau query no van ko goi vao coso du lieu lan thu 2.
+
+PHai du sung thu vien ben thu 3 mo enable dc
+1. ehcache maven
+2. hibernate ehcache maven
+ configtrong hibernate.cfg.xml:
+ <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">
+            org.hibernate.cache.ehcache.EhCacheRegionFactory
+        </property>
+
+ 3. Anotation @Cache vao class java mong muon

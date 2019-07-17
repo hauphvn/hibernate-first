@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/education</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">1</property>
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool-size">10</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+<!--        //show_sql De co the xem detail cau query trong console after run-->
+        <property name="show_sql">true</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">
+            org.hibernate.cache.ehcache.EhCacheRegionFactory
+        </property>
+<!--        //hibernate.hbm2ddl.auto De co the tao table moi trong database, drop existed table-->
+<!--        <property name="hibernate.hbm2ddl.auto">create</property>-->
+        <mapping class="edu.hibernate.model.Course" />
+        <mapping class="edu.hibernate.model.Student" />
+<!--        <mapping class="edu.hibernate.model.Syllabus" />-->
+        <mapping class="edu.hibernate.model.Address" />
+        <mapping class="edu.hibernate.model.GroupStudent" />
+
+    </session-factory>
+</hibernate-configuration>
