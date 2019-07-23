@@ -1,4 +1,6 @@
 // ket noi database derby:
+
+
 Cai dat moi truong
 
 ---------------Setup enviroment to run Derby---
@@ -34,6 +36,14 @@ De luu data tu controller vao trong database ta can 1 session
 hibernate mapping to create schema DDL: hbm2ddl
 co cac property: 
 none, validate, create, create-drop, update
+
+--------Session Factory-----------
+Co nhiem vu mapping model den cac bang du lieu trong database
+Sau khi lien he voi database xong no se tra ve duoi dang session
+--------Session---------------
+Co nhiem vu lien he voi EntityManager de thuc hien cau query
+--------Transacsion---------------
+
 
 -------------Status of Object-------------------
 
